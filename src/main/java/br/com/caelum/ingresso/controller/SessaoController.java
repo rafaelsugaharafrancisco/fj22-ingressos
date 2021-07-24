@@ -18,8 +18,10 @@ import org.springframework.web.servlet.ModelAndView;
 import br.com.caelum.ingresso.dao.FilmeDao;
 import br.com.caelum.ingresso.dao.SalaDao;
 import br.com.caelum.ingresso.dao.SessaoDao;
+import br.com.caelum.ingresso.model.Carrinho;
 import br.com.caelum.ingresso.model.ImagemCapa;
 import br.com.caelum.ingresso.model.Sessao;
+import br.com.caelum.ingresso.model.TipoDeIngresso;
 import br.com.caelum.ingresso.model.form.SessaoForm;
 import br.com.caelum.ingresso.rest.OmdbClient;
 import br.com.caelum.ingresso.validacao.GerenciadorDeSessao;
@@ -38,7 +40,10 @@ public class SessaoController {
 	
 	@Autowired
 	private OmdbClient client;
-
+	
+	@Autowired
+	private Carrinho carrinho;
+	
 	@GetMapping("/admin/sessao")
 	public ModelAndView form (@RequestParam("salaId") Integer salaId, SessaoForm form) {
 		
@@ -79,6 +84,8 @@ public class SessaoController {
 		
 		mav.addObject("sessao", sessao);
 		mav.addObject("imagemCapa", imagemCapa.orElse(new ImagemCapa()));
+		mav.addObject("tiposDeIngressos", TipoDeIngresso.values());
+		mav.addObject("carrinho", carrinho);
 		
 		return mav;
 	}
